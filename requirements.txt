@@ -1,0 +1,6 @@
+discord.py
+mysql-connector-python
+SQLAlchemy
+python-dotenv
+requests
+pillow

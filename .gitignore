@@ -1,0 +1,3 @@
+config.env
+__pycache__
+wordle_key_pair.pem
