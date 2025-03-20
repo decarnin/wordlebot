@@ -58,16 +58,16 @@ class Stats(commands.Cog):
     def calculate_streaks(user_id: int) -> tuple | None:
         session = get_session()
         try:
-            results = session.query(WordleData.wordle_date).filter(WordleData.user_id == user_id).order_by(WordleData.wordle_date.asc()).all()
-            dates = [result[0] for result in results]
-            if dates is None:
+            results = session.query(WordleData.wordle_id).filter(WordleData.user_id == user_id).order_by(WordleData.wordle_id.asc()).all()
+            ids = [int(result[0].replace(',', '')) for result in results]
+            if not ids:
                 return None
 
             longest_streak = 1
             current_streak = 1
             temp_streak = 1
-            for i in range(1, len(dates)):
-                if (dates[i] - dates[i - 1]).days == 1:
+            for i in range(1, len(ids)):
+                if (ids[i] - ids[i - 1]) == 1:
                     temp_streak += 1
                 else:
                     if temp_streak > longest_streak:
@@ -76,8 +76,8 @@ class Stats(commands.Cog):
             if temp_streak > longest_streak:
                 longest_streak = temp_streak
 
-            for i in range(len(dates) - 1, 0, -1):
-                if (dates[i] - dates[i - 1]).days == 1:
+            for i in range(len(ids) - 1, 0, -1):
+                if (ids[i] - ids[i - 1]) == 1:
                     current_streak += 1
                 else:
                     break
